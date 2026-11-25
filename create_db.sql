@@ -63,3 +63,42 @@ CREATE TABLE users_hobbies (
     CONSTRAINT ck_users_hobbies_ra02 CHECK (nivel IN ('PRINCIPIANTE', 'INTERMEDIO') OR horas_semanales >= 5) 
     
 );
+
+
+-- RA03 y RA04
+
+DELIMITER //
+
+CREATE OR REPLACE TRIGGER t_ra03_ra04
+BEFORE INSERT OR UPDATE ON users_hobbies
+FOR EACH ROW
+BEGIN
+	DECLARE v_horas_totales INT;
+	DECLARE v_contador_experto INT;
+	
+	-- RA04
+	
+	IF NEW.nivel = 'EXPERTO' THEN
+		SELECT COUNT(*) INTO v_contador_experto
+		FROM users_hobbies uh
+		WHERE uh.user_id = NEW.user_id AND uh.nivel = 'EXPERTO' AND NOT (uh.user_hobby_id <=> OLD.user_hobby_id);
+		
+		IF v_contador_experto >= 2 THEN
+		SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = 'RA04: Un usuario no es experto en más de 2 aficiones';
+		END IF;
+	END IF;
+	
+	-- RA03
+	
+	SELECT SUM(uh.horas_semanales) INTO v_horas_totales
+	FROM user_hobbies uh
+	WHERE uh.user_id = NEW.user_id AND NOT (uh.user_hobby_id <=> OLD.user_hobby_id);
+	
+	IF (v_horas_totales + NEW.horas_semanales) > 30 THEN
+	SIGNAL SQLSTATE '45000'
+	SET MESSAGE_TEXT = 'RA03: Un usuario no dedica más de 30 horas a la semana al total de sus aficiones';
+	END IF;
+
+END //
+DELIMITER ;
