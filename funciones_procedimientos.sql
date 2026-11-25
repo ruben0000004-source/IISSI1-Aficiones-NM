@@ -1,4 +1,4 @@
-USE hobbies_nm_db
+USE hobbies_nm_db;
 
 -- FUNCIONES
 
@@ -70,7 +70,7 @@ BEGIN
 			AND uh.hobby_id = v_hobby_id
 	) THEN
 		SIGNAL SQLSTATE '45000'
-		SET MESSAGE_TEXT = 'RN03: El ususario ya tiene esa afición';
+		SET MESSAGE_TEXT = 'RN03: El usuario ya tiene esa afición';
 	END IF;
 	
 	IF v_hobby_id IS NULL THEN
@@ -147,11 +147,11 @@ BEGIN
 	IF NOT EXISTS (SELECT * FROM hobbies h WHERE h.hobby_id = p_old_hobby_id)
 		OR NOT EXISTS (SELECT * FROM hobbies h WHERE h.hobby_id = p_new_hobby_id) THEN
 		SIGNAL SQLSTATE '45000'
-			SET MESSAGE_TEXT 'RI02: Las dos aficiones deben estar en el catálogo';
+			SET MESSAGE_TEXT = 'RI02: Las dos aficiones deben estar en el catálogo';
 	END IF;
 	
 	DELETE FROM users_hobbies
-	WHERE hobby_id = p_old_hobby-id
+	WHERE hobby_id = p_old_hobby_id
 		AND user_id IN (
 			SELECT uh.user_id
 			FROM users_hobbies uh
@@ -188,21 +188,22 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL p_populate();
-
-SELECT h.hobby_id, h.hobby_name, f_hobby_users(h.hobby_id) AS users
-FROM hobbies h
-ORDER BY users DESC, h.hobby_id;
-
-CALL p_merge_hobbies_tx(3, 2);
-
-SELECT h.hobby_id, h.hobby_name, f_hobby_users(h.hobby_id) AS users
-FROM hobbies h
-ORDER BY users DESC, h.hobby_id;
-
-SELECT uh.user_id
-FROM users_hobbies uh
-WHERE uh.hobby_id = 2
-ORDER BY uh.user_id;
-
-CALL p_populate()
+-- CALL p_populate();
+-- 
+-- SELECT h.hobby_id, h.hobby_name, f_hobby_users(h.hobby_id) AS users
+-- FROM hobbies h
+-- ORDER BY users DESC, h.hobby_id;
+-- 
+-- CALL p_merge_hobbies_tx(3, 2);
+-- 
+-- SELECT h.hobby_id, h.hobby_name, f_hobby_users(h.hobby_id) AS users
+-- FROM hobbies h
+-- ORDER BY users DESC, h.hobby_id;
+-- 
+-- SELECT uh.user_id
+-- FROM users_hobbies uh
+-- WHERE uh.hobby_id = 2
+-- ORDER BY uh.user_id;
+-- 
+-- CALL p_populate();
+-- 
