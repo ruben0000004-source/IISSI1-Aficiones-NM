@@ -51,7 +51,7 @@ CREATE TABLE users_hobbies (
     -- Parámetros necesarios para crear RA01 y RA02
     
     horas_semanales INT NOT NULL,
-    nivel ENUM('Principiante', 'Intermedio', 'Experto') NOT NULL,
+    nivel ENUM('PRINCIPIANTE', 'INTERMEDIO', 'EXPERTO') NOT NULL,
     
     PRIMARY KEY (user_hobby_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id),
@@ -60,6 +60,6 @@ CREATE TABLE users_hobbies (
     
     -- RA01 y RA02
     CONSTRAINT ck_users_hobbies_ra01 CHECK (horas_semanales BETWEEN 1 AND 20),
-    CONSTRAINT ck_users_hobbies_ra02 CHECK (nivel IN ('Principiante', 'Intermedio') OR horas_semanales >= 5) 
+    CONSTRAINT ck_users_hobbies_ra02 CHECK (nivel IN ('PRINCIPIANTE', 'INTERMEDIO') OR horas_semanales >= 5) 
     
 );
