@@ -39,17 +39,27 @@ BEGIN
         ('Montar a caballo');
 
     ALTER TABLE users_hobbies AUTO_INCREMENT = 1;
-    INSERT INTO users_hobbies (user_id, hobby_id) VALUES
-        (1,3), (1,4),
-        (2,3), (2,1), (2,2),
-        (4,4), (4,2), (4,1),
-        (5,3),
-        (6,2),
-        (8,3), (8,4), (8,1), (8,2),
-        (9,3), (9,1), (9,2),
-        (10,4),
-        (11,5),
-        (8,5);
+    INSERT INTO users_hobbies (user_id, hobby_id, horas_semanales, nivel) VALUES
+        (1,3, 10, 'EXPERTO'),
+		  (1,4, 5, 'INTERMEDIO'),
+        (2,3, 8, 'EXPERTO'),
+		  (2,1, 6, 'EXPERTO'),
+		  (2,2, 4, 'INTERMEDIO'),
+        (4,4, 8, 'PRINCIPIANTE'),
+		  (4,2, 15, 'EXPERTO'),
+		  (4,1, 7, 'PRINCIPIANTE'),
+        (5,3, 18, 'EXPERTO'),
+        (6,2, 2, 'PRINCIPIANTE'),
+        (8,3, 5, 'EXPERTO'),
+		  (8,4, 5, 'EXPERTO'),
+		  (8,1, 2, 'INTERMEDIO'),
+		  (8,2, 2, 'INTERMEDIO'),
+        (9,3, 5, 'EXPERTO'),
+		  (9,1, 2, 'INTERMEDIO'),
+		  (9,2, 2, 'PRINCIPIANTE'),
+        (10,4, 5, 'EXPERTO'),
+        (11,5, 2, 'PRINCIPIANTE'),
+        (8,5, 2, 'PRINCIPIANTE');
 END //
 DELIMITER ;
 
